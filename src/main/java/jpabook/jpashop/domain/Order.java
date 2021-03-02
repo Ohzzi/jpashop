@@ -37,7 +37,7 @@ public class Order {
     private OrderStatus orderStatus;
 
     //==연관관계 편의 메소드==//
-    public void mapMemberToOrder(Member member) {
+    public void addMemberToOrder(Member member) {
         this.member = member;
         member.getOrders().add(this);
     }
