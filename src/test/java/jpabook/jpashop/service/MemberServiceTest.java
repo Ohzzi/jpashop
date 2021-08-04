@@ -31,6 +31,11 @@ class MemberServiceTest {
 
     }
 
+    /**
+     * Junit4 에서는 @Test 어노테이션에 (expected = IllegalStateException.class) 를 붙여서 예외를 잡아냈다.
+     * 그러나 Junit5에서는 해당 기능이 제공되지 않으며, 대신 assertThrows()를 사용하여 예외를 검출하는 테스트를 진행한다.
+     * 가장 원시적인 방법으로는 try ~ catch 구문을 사용해서 처리할 수도 있다.
+     */
     @Test
     public void 중복_회원_예외() throws Exception {
         assertThrows(IllegalStateException.class, () -> {
