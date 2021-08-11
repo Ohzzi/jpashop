@@ -96,3 +96,13 @@ PersistenceContext(영속성 컨텍스트)는 엔티티를 영구히 저장하�
 Order 클래스의 정적 팩토리 메소드 createOrder() 메소드를 작성. 이 때 Order 클래스 안에는 orderStatus 와 orderDate의 setter를 만들지 않았으므로,
 정적 팩토리 메소드 안에서 새 Order를 생성할 때 Builder를 사용하여 생성 단계에서 orderStatus와 orderDate를 넣어주었다. (최대한 setter의 사용을 지양)
 나머지 연관관계로 매핑된 엔티티 정보를 변경할때는 엔티티 클래스 내에서 작성한 연관관계 편의 메소드를 사용하여 매핑한다. 이렇게 엔티티 내의 필드들의 정보를 모두 입력한 Order 객체를 반환해준다. OrderItem 클래스에도 마찬가지로 static createOrderItem() 메소드를 작성한다.  
+
+**OrderService에서 Order만 저장하는 이유**  
+OrderService에서 주문 기능을 작성할 때 Order만 save하고 OrderItem이나 Delivery는 레포지토리에 저장하지 않는다.
+그 이유는, Order 엔티티 안에 필드로 존재하는 Delivery와 OrderItem의 옵션이 CascadeType.ALL 이기 때문에, Order를 persist하게 되면
+Delivery와 OrderItem 또한 persist하게 되기 때문이다. (영속성 전이)
+
+**도메인 모델 패턴과 트랜잭션 스크립트 패턴**  
+예제에서는 비즈니스 로직 대부분이 엔티티에 있고, 서비스 객체는 엔티티에 필요한 요청을 위임하는 역할을 한다.
+이처럼 객체 지향의 특성을 적극 활용하여 엔티티가 비즈니스 로직을 가지고 서비스 계층에서 요청만 하는 것을 도메인 모델 패턴이라고 한다.
+반대로, 엔티티에는 비즈니스 로직이 거의 없고 서비스 계층에서 비즈니스 로직을 처리하는 것을 처리하는 것을 트랜잭션 스크립트 패턴이라고 한다.
